@@ -7,9 +7,9 @@ export default function RootLayout({
     <html lang="es">
       <body
         style={{
-          fontFamily: "system-ui, sans-serif",
-          background: "#f4f6fb",
           margin: 0,
+          padding: 0,
+          minHeight: "100vh",
         }}
       >
         {children}

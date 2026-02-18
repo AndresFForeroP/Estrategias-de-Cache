@@ -14,35 +14,46 @@ export function Timeline() {
   }, [])
 
   return (
-    <div style={{ marginTop: 24 }}>
-      <h3>🕒 Timeline (ms)</h3>
+    <div style={{ marginTop: 32, marginBottom: 24 }}>
+      <style>{`
+        .timeline-item:hover {
+          background: #f8fafc;
+          border-color: #2563eb;
+        }
+      `}</style>
+      <h3 style={{ fontSize: "1.125rem", marginBottom: 16, color: "#0f172a" }}>🕒 Timeline (ms)</h3>
 
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
         {events.map((e, i) => (
           <li
             key={i}
+            className="timeline-item"
             style={{
               display: "flex",
               gap: 12,
-              background: "#f8fafc",
-              padding: "10px 12px",
-              borderRadius: 8,
+              background: "#ffffff",
+              padding: "12px 16px",
+              borderRadius: 10,
               marginBottom: 8,
               fontSize: 14,
               alignItems: "center",
+              border: "1px solid #e2e8f0",
+              transition: "all 0.2s ease",
             }}
           >
             <span
               style={{
                 fontFamily: "monospace",
-                color: "#475569",
+                color: "#2563eb",
                 minWidth: 120,
+                fontWeight: 600,
+                fontSize: "12px",
               }}
             >
               {e.time}
             </span>
 
-            <span>{e.message}</span>
+            <span style={{ color: "#475569" }}>{e.message}</span>
           </li>
         ))}
       </ul>
