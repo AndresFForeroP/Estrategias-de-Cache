@@ -1,4 +1,4 @@
-import { logEvent } from "./events"
+import { logEvent, startTimer, endTimer, resetEvents } from "./events"
 import { writeDB } from "./db"
 
 let cache: any = null
@@ -17,61 +17,71 @@ function notifyCacheSubscribers() {
 }
 
 export function resetCache() {
-  logEvent("🧹 Cache reseteada")
+  logEvent("🧹 Cache reseteada", "cache")
   cache = null
   expiresAt = 0
+  resetEvents()
   notifyCacheSubscribers()
 }
 
 export function getCache() {
+  startTimer("cache-read")
+  logEvent("⚡ Verificando caché", "cache")
+  // Simula latencia de caché (~1ms)
+  setTimeout(() => endTimer("cache-read", cache && Date.now() <= expiresAt ? "✓ Cache HIT" : "✗ Cache MISS", "cache"), 1)
+
   if (!cache || Date.now() > expiresAt) {
-    logEvent("❌ Cache MISS")
     return null
   }
-  logEvent("⚡ Cache HIT")
   return cache
 }
 
 export function setCache(data: any, ttl = 5000) {
-  logEvent("💾 Guardando en cache")
+  startTimer("cache-set")
+  logEvent("💾 Guardando en caché", "cache")
+  setTimeout(() => endTimer("cache-set", "✓ Guardado en caché", "cache"), 1)
   cache = data
   expiresAt = Date.now() + ttl
   notifyCacheSubscribers()
 }
 
-export function readThrough(getFromDB: () => any) {
-  if (!cache) {
-    logEvent("🔁 Read-Through → DB")
-    cache = getFromDB()
-  } else {
-    logEvent("⚡ Read-Through → Cache")
-  }
-  return cache
-}
-
-export function refreshAhead(getFromDB: () => any, ttl = 5000) {
+export async function readThrough(getFromDB: () => Promise<any>) {
   if (!cache || Date.now() > expiresAt) {
-    logEvent("🔄 Refresh-Ahead → DB")
-    cache = getFromDB()
-    expiresAt = Date.now() + ttl
+    logEvent("🔁 Read-Through: No en caché, consultando BD", "app")
+    const data = await getFromDB()
+    setCache(data)
+    return data
+  } else {
+    logEvent("🔁 Read-Through: Encontrado en caché", "cache")
+    return cache
+  }
+}
+
+export async function refreshAhead(getFromDB: () => Promise<any>, ttl = 5000) {
+  if (!cache || Date.now() > expiresAt - 2000) {
+    logEvent("🔄 Refresh-Ahead: Refresco preventivo", "app")
+    const data = await getFromDB()
+    setCache(data, ttl)
+  } else {
+    logEvent("🔄 Refresh-Ahead: Datos frescos en caché", "cache")
   }
   return cache
 }
 
-export function writeThrough(value: number) {
-  logEvent("✍️ Write-Through")
+export async function writeThrough(value: number) {
+  logEvent("✍️ Write-Through: Escribiendo en caché y BD", "app")
   cache = { value, updatedAt: Date.now() }
-  writeDB(value)
   notifyCacheSubscribers()
+  await writeDB(value)
 }
 
-export function writeAround(value: number) {
-  logEvent("🚫 Write-Around")
-  writeDB(value)
+export async function writeAround(value: number) {
+  logEvent("🚫 Write-Around: Escribiendo solo en BD", "app")
+  await writeDB(value)
 }
 
-export function writeBack(value: number) {
-  logEvent("⚡ Write-Back (async)")
+export async function writeBack(value: number) {
+  logEvent("⚡ Write-Back: Escribiendo en caché (async a BD)", "app")
   cache = { value, updatedAt: Date.now() }
   notifyCacheSubscribers()
   setTimeout(() => writeDB(value), 3000)

@@ -10,7 +10,7 @@ const pages = [
 
 export default function Home() {
   return (
-    <main style={{ minHeight: "100vh", padding: "60px 20px" }}>
+    <main style={{ minHeight: "100vh", padding: "60px 20px", background: "#f8fafc" }}>
       <style>{`
         .slide-button {
           transition: all 0.3s ease;
@@ -27,11 +27,29 @@ export default function Home() {
           box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1) !important;
           border-color: #2563eb !important;
         }
+        .section {
+          margin-bottom: 80px;
+        }
+        .section-title {
+          font-size: 1.875rem;
+          font-weight: 700;
+          margin: 0 0 32px 0;
+          color: #0f172a;
+          padding-bottom: 16px;
+          border-bottom: 2px solid #e2e8f0;
+        }
+        .nav-grid {
+          display: grid;
+          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))";
+          gap: 24;
+        }
       `}</style>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: "60px" }}>
-          <h1 style={{ marginBottom: "16px", fontSize: "3.5rem" }}>🧠 Estrategias de Caché</h1>
-          <p style={{ fontSize: "1.125rem", opacity: 0.7, marginBottom: "40px" }}>Demo interactiva para charlas técnicas</p>
+        
+        {/* Encabezado Principal */}
+        <div style={{ textAlign: "center", marginBottom: "80px" }}>
+          <h1 style={{ marginBottom: "16px", fontSize: "3.5rem", color: "#0f172a" }}>🧠 Estrategias de Caché</h1>
+          <p style={{ fontSize: "1.125rem", opacity: 0.7, marginBottom: "40px", color: "#475569" }}>Demo interactiva para charlas técnicas</p>
 
           <a
             href="https://estrategiascachediapositivas.netlify.app/"
@@ -51,17 +69,34 @@ export default function Home() {
               cursor: "pointer",
             }}
           >
-            📊 Diapositivas
+            📊 Diapositivas de Presentación
           </a>
         </div>
 
-        <h2 style={{ textAlign: "center", marginBottom: "40px", opacity: 0.6, fontSize: "1.25rem" }}>Elige una estrategia</h2>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 24 }}>
-          {pages.map(p => (
+        {/* Sección Educativa */}
+        <div className="section">
+          <h2 className="section-title">📚 Aprende los Conceptos</h2>
+          <div className="nav-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 24 }}>
             <a
-              key={p.path}
-              href={p.path}
+              href="/portada"
+              className="strategy-card"
+              style={{
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                padding: "32px 24px",
+                borderRadius: "16px",
+                textDecoration: "none",
+                color: "white",
+                border: "1px solid rgba(255,255,255,0.2)",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.07)",
+                cursor: "pointer",
+              }}
+            >
+              <h2 style={{ fontSize: "1.5rem", marginBottom: "12px", margin: 0 }}>📌 Portada</h2>
+              <p style={{ opacity: 0.9, marginBottom: 0 }}>Inicio de la presentación</p>
+            </a>
+            
+            <a
+              href="/el-problema"
               className="strategy-card"
               style={{
                 background: "white",
@@ -74,10 +109,99 @@ export default function Home() {
                 cursor: "pointer",
               }}
             >
-              <h2 style={{ fontSize: "1.5rem", marginBottom: "12px" }}>{p.emoji} {p.title}</h2>
-              <p style={{ opacity: 0.6, marginBottom: 0 }}>Ver demo</p>
+              <h2 style={{ fontSize: "1.5rem", marginBottom: "12px", margin: 0 }}>❌ El Problema</h2>
+              <p style={{ opacity: 0.6, marginBottom: 0 }}>Entiende los desafíos</p>
             </a>
-          ))}
+
+            <a
+              href="/que-es-cache"
+              className="strategy-card"
+              style={{
+                background: "white",
+                padding: "32px 24px",
+                borderRadius: "16px",
+                textDecoration: "none",
+                color: "#0f172a",
+                border: "1px solid #e2e8f0",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.07)",
+                cursor: "pointer",
+              }}
+            >
+              <h2 style={{ fontSize: "1.5rem", marginBottom: "12px", margin: 0 }}>🧊 ¿Qué es Caché?</h2>
+              <p style={{ opacity: 0.6, marginBottom: 0 }}>La solución fundamental</p>
+            </a>
+
+            <a
+              href="/cache-hit-vs-miss"
+              className="strategy-card"
+              style={{
+                background: "white",
+                padding: "32px 24px",
+                borderRadius: "16px",
+                textDecoration: "none",
+                color: "#0f172a",
+                border: "1px solid #e2e8f0",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.07)",
+                cursor: "pointer",
+              }}
+            >
+              <h2 style={{ fontSize: "1.5rem", marginBottom: "12px", margin: 0 }}>⚔️ HIT vs MISS</h2>
+              <p style={{ opacity: 0.6, marginBottom: 0 }}>El corazón del caché</p>
+            </a>
+
+            <a
+              href="/trade-offs"
+              className="strategy-card"
+              style={{
+                background: "white",
+                padding: "32px 24px",
+                borderRadius: "16px",
+                textDecoration: "none",
+                color: "#0f172a",
+                border: "1px solid #e2e8f0",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.07)",
+                cursor: "pointer",
+              }}
+            >
+              <h2 style={{ fontSize: "1.5rem", marginBottom: "12px", margin: 0 }}>⚙️ Trade-offs</h2>
+              <p style={{ opacity: 0.6, marginBottom: 0 }}>No hay bala de plata</p>
+            </a>
+          </div>
+        </div>
+
+        {/* Sección de Estrategias */}
+        <div className="section">
+          <h2 className="section-title">🎯 Explora las Estrategias</h2>
+          <p style={{ fontSize: "1.0625rem", color: "#475569", marginBottom: "32px" }}>
+            Interactúa con cada estrategia. Usa los botones para simular operaciones y observa los timelines en tiempo real.
+          </p>
+          <div className="nav-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 24 }}>
+            {pages.map(p => (
+              <a
+                key={p.path}
+                href={p.path}
+                className="strategy-card"
+                style={{
+                  background: "white",
+                  padding: "32px 24px",
+                  borderRadius: "16px",
+                  textDecoration: "none",
+                  color: "#0f172a",
+                  border: "1px solid #e2e8f0",
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.07)",
+                  cursor: "pointer",
+                }}
+              >
+                <h2 style={{ fontSize: "1.5rem", marginBottom: "12px", margin: 0 }}>{p.emoji} {p.title}</h2>
+                <p style={{ opacity: 0.6, marginBottom: 0 }}>Ver demo interactiva</p>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Pie de Página */}
+        <div style={{ textAlign: "center", paddingTop: "60px", borderTop: "2px solid #e2e8f0", marginTop: "80px", color: "#64748b" }}>
+          <p>💡 Pro tip: Comienza por "Portada" y sigue la secuencia para una mejor comprensión</p>
         </div>
       </div>
     </main>
