@@ -198,11 +198,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-
-        {/* Pie de Página */}
-        <div style={{ textAlign: "center", paddingTop: "60px", borderTop: "2px solid #e2e8f0", marginTop: "80px", color: "#64748b" }}>
-          <p>💡 Pro tip: Comienza por "Portada" y sigue la secuencia para una mejor comprensión</p>
-        </div>
       </div>
     </main>
   )
